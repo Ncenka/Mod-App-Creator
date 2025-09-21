@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="windows-1251" ?>
+<string_table>
+	<string id="ui_mcm_menu_pda_apps">
+		<text>MAC</text>
+	</string>
+	<string id="ui_mcm_pda_apps_launcher_key">
+		<text>Вернутся к Лаунчеру</text>
+	</string>
+	<string id="ui_mcm_pda_apps_launcher_key_desc">
+		<text>Кнопка, при нажатии которой вас вернёт к главному экрану Лаунчера. Может быть полезно если после открытия приложения пропадают кнопки сверху.</text>
+	</string>
+	<string id="pda_btn_launcher">
+		<text>Лаунчер</text>
+	</string>
+	<string id="st_mac_modded_exes">
+		<text>Если вы это читаете, значит, ваша версия Modded Exes устарела и несовместима с аддоном Mod App Creator. Mod App Creator требует Modded Exes версии от 23 августа 2025 года (2025.8.23) или новее. Если вы используете AOEngine, попросите v2v3v4 обновить AOEngine до последней версии Modded Exes.</text>
+	</string>
+</string_table>

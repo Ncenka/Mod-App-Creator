@@ -1,0 +1,17 @@
+<string_table>
+	<string id="ui_mcm_menu_pda_apps">
+		<text>MAC</text>
+	</string>
+	<string id="ui_mcm_pda_apps_launcher_key">
+		<text>Return to Launcher</text>
+	</string>
+	<string id="ui_mcm_pda_apps_launcher_key_desc">
+		<text>Button that, when pressed, returns you to the Launcher's main screen. This can be useful if the buttons at the top disappear after opening the app.</text>
+	</string>
+	<string id="pda_btn_launcher">
+		<text>Launcher</text>
+	</string>
+	<string id="st_mac_modded_exes">
+		<text>If you're reading this, it means your Modded Exes are outdated and not compatible with the Mod App Creator addon. Mod App Creator require Modded Exes from August 23, 2025 (2025.8.23) or later. If you use AOEngine ask v2v3v4 to update it to latest Modded Exes version.</text>
+	</string>
+</string_table>

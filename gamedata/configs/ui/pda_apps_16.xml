@@ -1,0 +1,7 @@
+<w>
+
+	<app_base x="50" y="50" width="50" height="50" stretch="1">
+		<text width="50" height="100" align="c" font="letterica18"/>
+	</app_base>
+
+</w>
