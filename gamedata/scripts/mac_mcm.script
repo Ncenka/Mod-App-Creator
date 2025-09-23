@@ -66,29 +66,12 @@ end
 
 function add_app(app_id, app_data)
 
-    if not app_id or type(app_id) ~= "string" or app_id:len() == 0 then
-        assert(false, "MAC: Invalid app_id! Must be a non-empty string.")
-    end
-
-    if app_id:match("[^%w_]") then
-        assert(false, "MAC: App id '" .. app_id .. "' contains invalid characters! Only letters, numbers and underscores are allowed.")
-    end
-    
-    if not app_data or type(app_data) ~= "table" then
-        assert(false, "MAC: Invalid app_data! Must be a table.")
-    end
-    
-    if not app_data.name or type(app_data.name) ~= "string" or app_data.name:len() == 0 then
-        assert(false, "MAC: App '" .. app_id .. "' missing or invalid 'name' field! Must be non-empty string.")
-    end
-
-    if not app_data.tab or type(app_data.tab) ~= "string" or app_data.tab:len() == 0 then
-         assert(false, "MAC: App '" .. app_id .. "' missing or invalid 'tab' field! Must be non-empty string.")
-    end
-    
-    if not app_data.texture or type(app_data.texture) ~= "string" or app_data.texture:len() == 0 then
-        assert(false, "MAC: App '" .. app_id .. "' missing or invalid 'texture' field! Must be non-empty string.")
-    end
+    assert(type(app_id) == "string" or app_id:len() ~= 0, "MAC: Invalid app_id! Must be a non-empty string.")
+    assert(not app_id:match("[^%w_]"), "MAC: App id '" .. app_id .. "' contains invalid characters! Only letters, numbers and underscores are allowed.")
+    assert(type(app_data) == "table", "MAC: Invalid app_data! Must be a table.")
+    assert(type(app_data.name) == "string" or app_data.name:len() ~= 0, "MAC: App '" .. app_id .. "' missing or invalid 'name' field! Must be non-empty string.")
+    assert(type(app_data.tab) == "string" or app_data.tab:len() ~= 0, "MAC: App '" .. app_id .. "' missing or invalid 'tab' field! Must be non-empty string.")
+    assert(type(app_data.texture) == "string" or app_data.texture:len() ~= 0, "MAC: App '" .. app_id .. "' missing or invalid 'texture' field! Must be non-empty string.")
 
     if app_data.func then
         if type(app_data.func) ~= "function" then
@@ -102,12 +85,61 @@ function add_app(app_id, app_data)
     end
     
     PDA_APPS[app_id] = app_data
-    printf("$MAC: Added app: %s (tab: %s)", app_id, app_data.tab)
+    printf("$MAC: Added app: %s (tab: %s).", app_id, app_data.tab)
+
+    SINGLETON = nil
+
+end
+
+function remove_app(app_id)
+
+    assert(type(app_id) == "string", "MAC: Invalid app_id! Must be a string.")
+    
+    if PDA_APPS[app_id] then
+        PDA_APPS[app_id] = nil
+        printf("$MAC: Removed app: %s", app_id)
+        SINGLETON = nil
+    else
+        printf("!MAC: App with id '%s' not found, cannot remove.", app_id)
+    end
+
 end
 
 function add_blocked_tabs(tabs_table)
     for _, tab_name in ipairs(tabs_table) do
         BLOCKED_TABS[tab_name] = true
+    end
+end
+
+function remove_blocked_tabs(tabs_table)
+    if not tabs_table then
+        BLOCKED_TABS = {}
+        printf("$MAC: All blocked tabs cleared.")
+        return
+    end
+    
+    for _, tab_name in ipairs(tabs_table) do
+        if BLOCKED_TABS[tab_name] then
+            BLOCKED_TABS[tab_name] = nil
+            printf("$MAC: Removed blocked tab: %s.", tab_name)
+        else
+            printf("!MAC: Tab '%s' was not blocked.", tab_name)
+        end
+    end
+end
+
+function reload_interface()
+    printf("$MAC: Reloading PDA interface.")
+    
+    SINGLETON = nil
+    selected_app = 0
+    
+    local pda_menu = ActorMenu.get_pda_menu()
+    if pda_menu:IsShown() then
+        local current_tab = pda_menu:GetActiveSection()
+        if current_tab == "eptLauncher" then
+            pda_menu:SetActiveSubdialog("eptLauncher")
+        end
     end
 end
 
@@ -213,7 +245,7 @@ function bind_launcher(dik)
 		local obj = db.actor:active_item()
 		if obj then
 			local sec = obj:section()
-			if sec:find("device_pda_") and obj:is_device_enabled() then
+			if sec:find("device_pda_") and obj:is_device_enabled() and obj:condition() > 0.05 then
                 ActorMenu.get_pda_menu():SetActiveSubdialog("eptLauncher")
 			end
 		end
@@ -249,12 +281,8 @@ function on_game_start()
         add_app("app_interactive", {name = "pda_btn_interactive", texture = "app_interactive", tab = "eptInteractive", func = pda_inter_gui.start_PDAX})
     end
 
-    if get_aoe_version then
-        return
-    end
+    if get_aoe_version then return end
 
-    if get_modded_exes_version() < 20250823 then
-        assert(false, game.translate_string("st_mac_modded_exes"))
-    end
+    assert(get_modded_exes_version() > 20250823, game.translate_string("st_mac_modded_exes"))
 
 end
