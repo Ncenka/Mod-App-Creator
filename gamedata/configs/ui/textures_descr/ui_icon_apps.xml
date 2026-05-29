@@ -12,4 +12,11 @@
 		<texture id="app_interactive_t" x="0" y="256" width="256" height="256" />
 		<texture id="app_interactive_d" x="0" y="256" width="256" height="256" />
 	</file>
+	
+	<file name="ui\team_app">
+		<texture id="app_team_e" x="0" y="0" width="256" height="256" />
+		<texture id="app_team_h" x="256" y="0" width="256" height="256" />
+		<texture id="app_team_t" x="0" y="256" width="256" height="256" />
+		<texture id="app_team_d" x="0" y="256" width="256" height="256" />
+	</file>
 </w>

@@ -280,6 +280,9 @@ function on_game_start()
     if pda_inter_gui then
         add_app("app_interactive", {name = "pda_btn_interactive", texture = "app_interactive", tab = "eptInteractive", func = pda_inter_gui.start_PDAX})
     end
+    if hvt_pgc_core then
+        add_app("app_pgc", {name = "pda_btn_team", texture = "app_team", tab = "eptHvtPgcTeam", func = hvt_pgc_ui_team.get_ui})
+    end
 
     if get_aoe_version then return end
 
